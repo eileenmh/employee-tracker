@@ -1,44 +1,31 @@
 function Query() {}
 
+let mysql = require("mysql2/promise");
+connection = {
+  host: "localhost",
+  user: "root",
+  password: "f@7vgtoDpMpw@RJ",
+  database: "employee_tracker",
+};
+
 Query.viewDepartments = async function () {
-  // get the client
-  let mysql = require("mysql2/promise");
-  // create the connection
-  let connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "f@7vgtoDpMpw@RJ",
-    database: "employee_tracker",
-  });
-  let result = await connection.query("SELECT * FROM department");
+  let db = await mysql.createConnection(connection);
+  let result = await db.query("SELECT * FROM department");
   console.table(result[0]);
 };
 
-// const db = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "f@7vgtoDpMpw@RJ",
-//   database: "employee_tracker",
-// });
+Query.viewRoles = async function () {
+  let db = await mysql.createConnection(connection);
+  let result = await db.query(
+    "SELECT role.id, title, salary, department.name AS department FROM role INNER JOIN department ON department.id = role.department_id"
+  );
+  console.table(result[0]);
+};
 
-//
-
-// Query.viewDepartments = function () {
-//   db.query("SELECT * FROM department", function (err, results) {
-//     console.table(results);
-//   });
-// };
-
-// Query.viewRoles = function () {
-//   db.query("SELECT * FROM role", function (err, results) {
-//     console.table(results);
-//   });
-// };
-
-// Query.viewEmployees = function () {
-//   db.query("SELECT * FROM employee", function (err, results) {
-//     console.table(results);
-//   });
-// };
+Query.viewEmployees = async function () {
+  let db = await mysql.createConnection(connection);
+  let result = await db.query("SELECT * FROM employee");
+  console.table(result[0]);
+};
 
 module.exports = Query;

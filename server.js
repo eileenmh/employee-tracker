@@ -26,10 +26,12 @@ const processQuery = async function (response) {
   switch (response.selection) {
     case "View all departments":
       await query.viewDepartments();
-      return true;
+      break;
     case "View all roles":
+      await query.viewRoles();
       break;
     case "View all employees":
+      await query.viewEmployees();
       break;
     case "Add a department":
       break;
@@ -51,8 +53,14 @@ function restartPrompt() {
     .then((response) => {
       if (response.restart === true) {
         init();
+      } else {
+        process.exit(0);
       }
     });
+}
+
+function addDeptPrompt() {
+  inquirer.prompt({});
 }
 
 function init() {
