@@ -1,3 +1,4 @@
+const cTable = require("console.table");
 function Query() {}
 
 let mysql = require("mysql2/promise");
