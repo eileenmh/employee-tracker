@@ -25,7 +25,9 @@ Query.viewRoles = async function () {
 
 Query.viewEmployees = async function () {
   let db = await mysql.createConnection(connection);
-  let result = await db.query("SELECT * FROM employee");
+  let result = await db.query(
+    "SELECT e.id, e.first_name, e.last_name, role.title AS role, CONCAT(m.first_name, ' ', m.last_name) AS manager FROM employee AS e INNER JOIN role ON e.role_id = role.id LEFT JOIN employee AS m ON e.manager_id = m.id"
+  );
   console.table(result[0]);
 };
 
