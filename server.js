@@ -34,6 +34,8 @@ const processQuery = async function (response) {
       await query.viewEmployees();
       break;
     case "Add a department":
+      let response = await addDeptPrompt();
+      await query.addDept(response);
       break;
     case "Add a role":
       break;
@@ -43,7 +45,7 @@ const processQuery = async function (response) {
   }
 };
 
-function restartPrompt() {
+async function restartPrompt() {
   inquirer
     .prompt({
       type: "confirm",
@@ -59,8 +61,12 @@ function restartPrompt() {
     });
 }
 
-function addDeptPrompt() {
-  inquirer.prompt({});
+async function addDeptPrompt() {
+  return inquirer.prompt({
+    type: "input",
+    name: "deptName",
+    message: "What is the name of the department?",
+  });
 }
 
 function init() {

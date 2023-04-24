@@ -1,3 +1,5 @@
+/* cSpell:disable */
+
 const cTable = require("console.table");
 function Query() {}
 
@@ -29,6 +31,17 @@ Query.viewEmployees = async function () {
     "SELECT e.id, e.first_name, e.last_name, role.title AS role, CONCAT(m.first_name, ' ', m.last_name) AS manager FROM employee AS e INNER JOIN role ON e.role_id = role.id LEFT JOIN employee AS m ON e.manager_id = m.id"
   );
   console.table(result[0]);
+};
+
+Query.addDept = async function (response) {
+  let db = await mysql.createConnection(connection);
+  await db.query(
+    "INSERT INTO department (name) VALUES (?)",
+    [response.deptName],
+    function (error, results, fields) {
+      if (error) throw error;
+    }
+  );
 };
 
 module.exports = Query;
