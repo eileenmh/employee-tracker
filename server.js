@@ -34,12 +34,16 @@ const processQuery = async function (response) {
       await query.viewEmployees();
       break;
     case "Add a department":
-      let response = await addDeptPrompt();
-      await query.addDept(response);
+      let deptResponse = await addDeptPrompt();
+      await query.addDept(deptResponse);
       break;
     case "Add a role":
+      let roleResponse = await addRolePrompt();
+      await query.addRole(roleResponse);
       break;
     case "Add an employee":
+      let employeeResponse = await addEmployeePrompt();
+      await query.addEmployee(employeeResponse);
       break;
     case "Update an employee role":
   }
@@ -67,6 +71,57 @@ async function addDeptPrompt() {
     name: "deptName",
     message: "What is the name of the department?",
   });
+}
+
+async function addRolePrompt() {
+  let deptOptions = await query.listDepartments();
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "roleName",
+      message: "What is the name of the of the role?",
+    },
+    {
+      type: "number",
+      name: "salary",
+      message: "What is the salary of the role?",
+    },
+    {
+      type: "search-list",
+      name: "dept",
+      message: "Which department does the role belong to?",
+      choices: deptOptions,
+    },
+  ]);
+}
+
+async function addEmployeePrompt() {
+  let roleOptions = await query.listRoles();
+  let managerOptions = await query.listEmployees();
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "firstName",
+      message: "What is the employee's first name?",
+    },
+    {
+      type: "input",
+      name: "lastName",
+      message: "What is the employee's last name?",
+    },
+    {
+      type: "search-list",
+      name: "role",
+      message: "What is the employee's role?",
+      choices: roleOptions,
+    },
+    {
+      type: "search-list",
+      name: "manager",
+      message: "Who is the employee's manager?",
+      choices: managerOptions,
+    },
+  ]);
 }
 
 function init() {
