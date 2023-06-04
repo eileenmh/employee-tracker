@@ -46,6 +46,9 @@ const processQuery = async function (response) {
       await query.addEmployee(employeeResponse);
       break;
     case "Update an employee role":
+      let updateEmployeeResponse = await updateEmployeePrompt();
+      await query.updateEmployee(updateEmployeeResponse);
+      break;
   }
 };
 
@@ -120,6 +123,26 @@ async function addEmployeePrompt() {
       name: "manager",
       message: "Who is the employee's manager?",
       choices: managerOptions,
+    },
+  ]);
+}
+
+async function updateEmployeePrompt() {
+  let employeeOptions = await query.listEmployees();
+  let roleOptions = await query.listRoles();
+
+  return inquirer.prompt([
+    {
+      type: "search-list",
+      name: "employee",
+      message: "Which employee's role do you want to update?",
+      choices: employeeOptions,
+    },
+    {
+      type: "search-list",
+      name: "role",
+      message: "Which role do you want to assign the selected employee?",
+      choices: roleOptions,
     },
   ]);
 }

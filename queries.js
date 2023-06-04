@@ -95,5 +95,19 @@ Query.addEmployee = async function (response) {
   );
 };
 
+Query.updateEmployee = async function (response) {
+  let employeeArray = await Query.listEmployees();
+  let employeeId = employeeArray.indexOf(response.employee) + 1;
+  let roleArray = await Query.listRoles();
+  let roleId = roleArray.indexOf(response.role) + 1;
+  let db = await mysql.createConnection(connection);
+  await db.query(
+    "UPDATE employee SET role_id = ? WHERE id = ?",
+    [roleId, employeeId],
+    function (error) {
+      if (error) throw error;
+    }
+  );
+};
+
 module.exports = Query;
-Query.listDepartments();
