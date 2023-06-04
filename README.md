@@ -3,6 +3,7 @@
 For this week's challenge, we were asked to create a command-line application that can be used to manage a company's employee database. It is built with Node.js, and uses Inquirer.js to prompt the user for information about what actions they would like to take in the terminal. Data is managed using mysql. 
 
 The following is a demo of how the application works:
+https://drive.google.com/file/d/1SLu5oWf81ZjV2KOaUrvGsWFD78i_7kPd/view
 
 ## Acceptance Criteria
 
